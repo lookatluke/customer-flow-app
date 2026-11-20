@@ -43,6 +43,7 @@ export default function CanvasMap() {
     parties,
     activePartyId,
     activeTool,
+    activeEventType,
     currentPath,
     drawing,
     visiblePartyIds,
@@ -60,6 +61,7 @@ export default function CanvasMap() {
   } = useStore()
 
   const activeParty = parties.find(p => p.id === activePartyId)
+  const selectedParty = parties.find(p => p.id === selectedPartyId)
 
   // Read-only when: on the stats tab, OR the active party is already
   // completed. A completed route (completedAt set, or flowStep === 'done')
@@ -391,15 +393,18 @@ export default function CanvasMap() {
         </span>
       </div>
       )}
+
+      {/* ── MOBILE Event Type Chips (row 2, only when event tool active) ── */}
       {!readOnly && activeTool === 'event' && (
         <div className="mobile-toolbar-row2">
           {EDITABLE_EVENT_TYPES.map(et => (
             <button
               key={et.id}
-              className={`chip ${useStore.getState().activeEventType === et.id ? 'active' : ''}`}
+              className={`chip ${activeEventType === et.id ? 'active' : ''}`}
+              style={activeEventType === et.id ? { background: et.color, borderColor: et.color } : {}}
               onClick={() => useStore.getState().setActiveEventType(et.id)}
             >
-              <span className="dot" style={{ background: et.color }} />
+              <span className="dot" style={{ background: activeEventType === et.id ? 'rgba(255,255,255,0.7)' : et.color }} />
               {et.label}
             </button>
           ))}
@@ -571,6 +576,20 @@ export default function CanvasMap() {
                 <g transform={`translate(${currentPath[0].x}, ${currentPath[0].y})`}>
                   <circle r={0.014} fill={activeParty?.color || '#4f8ef7'} stroke="#fff" strokeWidth={0.003} />
                 </g>
+              )}
+
+              {/* Selected party outline (double-selection highlight) */}
+              {selectedParty && selectedParty.path.length >= 2 && (
+                <path
+                  d={buildPathStr(selectedParty.path)}
+                  fill="none"
+                  stroke={selectedParty.color}
+                  strokeWidth={0.008}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  opacity={0.25}
+                  style={{ pointerEvents: 'none' }}
+                />
               )}
             </svg>
           </>

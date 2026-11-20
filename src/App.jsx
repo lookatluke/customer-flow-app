@@ -596,42 +596,10 @@ export default function App() {
           {mobileTab === 'map' && (
             <div className="mobile-map-wrap">
               <CanvasMap />
-              {/* Bottom sheet */}
-              {activeParty && flowStep === 'path' && (
-                <div className={`mobile-sheet ${sheetExpanded ? 'expanded' : ''}`}>
-                  <div className="mobile-sheet-header" onClick={toggleSheet}>
-                    <span className="sheet-title">
-                      {activeParty.name} · {activeParty.members.length}명 · {activeParty.path.length}개 동선
-                    </span>
-                    <span className="sheet-toggle">{sheetExpanded ? '▲ 접기' : '▼ 펼치기'}</span>
-                  </div>
-                  {sheetExpanded && (
-                    <div className="mobile-sheet-body">
-                      <div style={{ marginBottom: 12 }}>
-                        <span className="form-label">구독 도구</span>
-                        <div className="chip-row">
-                          {['none', 'trolley', 'yellowbag'].map(t => (
-                            <button
-                              key={t}
-                              className={`chip sm ${activeParty.shoppingTool === t ? 'active' : ''}`}
-                              onClick={() => updateParty(activeParty.id, { shoppingTool: t })}
-                            >
-                              {t === 'none' ? '🚶 도보' : t === 'trolley' ? '🛒 트롤리' : '🟡 노랑봉투'}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                      <button
-                        className="btn"
-                        style={{ width: '100%', justifyContent: 'center' }}
-                        onClick={handleNewCustomer}
-                      >
-                        ➕ 새 고객 시작
-                      </button>
-                    </div>
-                  )}
-                </div>
-              )}
+              {/* Bottom sheet — removed: user requested removal of the accordion
+                  drawer under the map (it caused issues and duplicated the
+                  customer tab's function). Shopping tool is set in the
+                  customer tab instead. */}
               {/* Floating Complete Button — hidden for completed parties */}
               {activeParty && activeParty.path.length >= 2 && flowStep !== 'done' && !activeParty.completedAt && (
                 <button className="floating-complete" onClick={handleComplete}>
