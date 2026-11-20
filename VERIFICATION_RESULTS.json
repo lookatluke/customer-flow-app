@@ -1,0 +1,127 @@
+{
+  "total": 20,
+  "passed": 20,
+  "failed": 0,
+  "results": [
+    {
+      "group": "verif_desktop",
+      "name": "Floor plan + registration panel loads (no render crash)",
+      "pass": true,
+      "detail": "imgs=2 canvas=true sidebar=true bodyLen=820845"
+    },
+    {
+      "group": "verif_desktop",
+      "name": "Customer 1 registered (family, 3 people) + route drawn + 3 events",
+      "pass": true,
+      "detail": "{\"name\":\"가족 A\",\"path\":8,\"events\":3,\"members\":3}"
+    },
+    {
+      "group": "verif_desktop",
+      "name": "Re-drawing a route APPENDS (does not erase prior points)",
+      "pass": true,
+      "detail": "before=8 after=11"
+    },
+    {
+      "group": "verif_desktop",
+      "name": "3 customers registered + all routes visible on map",
+      "pass": true,
+      "detail": "{\"parties\":3,\"withPaths\":3}"
+    },
+    {
+      "group": "verif_desktop",
+      "name": "\"나감\" removed from event chips",
+      "pass": true,
+      "detail": "nagamChips=0"
+    },
+    {
+      "group": "verif_desktop",
+      "name": "Edit events still present (지남/제품 만짐/사진 촬영/멈춤/비교)",
+      "pass": true,
+      "detail": "eventsFound=5"
+    },
+    {
+      "group": "verif_desktop",
+      "name": "Dedicated 완료 button present",
+      "pass": true,
+      "detail": "desk=true float=true text=✓ 완료"
+    },
+    {
+      "group": "verif_desktop",
+      "name": "Complete button completes a customer (completedAt set, route kept)",
+      "pass": true,
+      "detail": "completed=3/3 routesKept=3"
+    },
+    {
+      "group": "verif_desktop",
+      "name": "Second-customer complete button still renders after first completion",
+      "pass": true,
+      "detail": "exists=true visible=true text=✓ 완료"
+    },
+    {
+      "group": "verif_desktop",
+      "name": "Statistics tab renders (no crash) with data",
+      "pass": true,
+      "detail": "vizEls=22 bodyLen=651"
+    },
+    {
+      "group": "verif_mobile",
+      "name": "Floor plan + registration panel loads (no render crash)",
+      "pass": true,
+      "detail": "imgs=2 canvas=true sidebar=true bodyLen=820845"
+    },
+    {
+      "group": "verif_mobile",
+      "name": "Customer 1 registered (family, 3 people) + route drawn + 3 events",
+      "pass": true,
+      "detail": "{\"name\":\"가족 A\",\"path\":8,\"events\":3,\"members\":3}"
+    },
+    {
+      "group": "verif_mobile",
+      "name": "Re-drawing a route APPENDS (does not erase prior points)",
+      "pass": true,
+      "detail": "before=8 after=11"
+    },
+    {
+      "group": "verif_mobile",
+      "name": "3 customers registered + all routes visible on map",
+      "pass": true,
+      "detail": "{\"parties\":3,\"withPaths\":3}"
+    },
+    {
+      "group": "verif_mobile",
+      "name": "\"나감\" removed from event chips",
+      "pass": true,
+      "detail": "nagamChips=0"
+    },
+    {
+      "group": "verif_mobile",
+      "name": "Edit events still present (지남/제품 만짐/사진 촬영/멈춤/비교)",
+      "pass": true,
+      "detail": "eventsFound=5"
+    },
+    {
+      "group": "verif_mobile",
+      "name": "Dedicated 완료 button present",
+      "pass": true,
+      "detail": "desk=true float=true text=✓ 완료"
+    },
+    {
+      "group": "verif_mobile",
+      "name": "Complete button completes a customer (completedAt set, route kept)",
+      "pass": true,
+      "detail": "completed=3/3 routesKept=3"
+    },
+    {
+      "group": "verif_mobile",
+      "name": "Second-customer complete button still renders after first completion",
+      "pass": true,
+      "detail": "exists=true visible=true text=✓ 완료"
+    },
+    {
+      "group": "verif_mobile",
+      "name": "Statistics tab renders (no crash) with data",
+      "pass": true,
+      "detail": "vizEls=22 bodyLen=79"
+    }
+  ]
+}
