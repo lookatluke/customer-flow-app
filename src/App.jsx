@@ -631,17 +631,18 @@ export default function App() {
               )}
               {/* Done overlay */}
               {flowStep === 'done' && (
-                <div className="flow-done-overlay">
+                <div 
+                  className="flow-done-overlay"
+                  onClick={() => {
+                    // Close overlay and switch to customer tab
+                    setFlowStep('idle')
+                    setMobileTab('customers')
+                  }}
+                >
                   <div style={{ fontSize: 48 }}>✓</div>
                   <div style={{ fontSize: 18, fontWeight: 600 }}>동선 완료!</div>
                   <div style={{ fontSize: 13, opacity: 0.7 }}>{activeParty?.name} 데이터가 저장되었습니다</div>
-                  <button
-                    className="btn primary"
-                    style={{ marginTop: 16, padding: '12px 24px', fontSize: 14 }}
-                    onClick={handleNewCustomer}
-                  >
-                    다음 고객 입력
-                  </button>
+                  <div style={{ fontSize: 12, opacity: 0.5, marginTop: 16 }}>탭하면 닫힙니다</div>
                 </div>
               )}
             </div>
