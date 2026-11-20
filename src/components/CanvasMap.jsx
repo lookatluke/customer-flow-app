@@ -58,6 +58,7 @@ export default function CanvasMap() {
     completeCurrentParty,
     completeAndStartNext,
     flowStep,
+    selectedPartyId,
   } = useStore()
 
   const activeParty = parties.find(p => p.id === activePartyId)
