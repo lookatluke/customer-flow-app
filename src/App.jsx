@@ -632,8 +632,8 @@ export default function App() {
                   )}
                 </div>
               )}
-              {/* Floating Complete Button */}
-              {activeParty && activeParty.path.length >= 2 && flowStep !== 'done' && (
+              {/* Floating Complete Button — hidden for completed parties */}
+              {activeParty && activeParty.path.length >= 2 && flowStep !== 'done' && !activeParty.completedAt && (
                 <button className="floating-complete" onClick={handleComplete}>
                   ✓ 완료
                 </button>

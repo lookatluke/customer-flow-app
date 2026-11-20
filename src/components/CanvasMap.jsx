@@ -340,8 +340,12 @@ export default function CanvasMap() {
           <PathActions party={activeParty} />
         )}
         {/* Dedicated "완료" button — completes the active customer's route.
-            Separate from the event pickers (나감 is no longer an event). */}
-        {activeParty && activeParty.path.length >= 2 && flowStep !== 'done' && (
+            Separate from the event pickers (나감 is no longer an event).
+            Hidden when the active party is already completed (completedAt) —
+            only flowStep !== 'done' is not enough: the overlay dismiss
+            resets flowStep to 'idle', which would otherwise re-show this
+            button on a finished route. */}
+        {activeParty && activeParty.path.length >= 2 && flowStep !== 'done' && !activeParty.completedAt && (
           <button
             className="btn complete-btn"
             onClick={completeAndStartNext}
@@ -359,7 +363,7 @@ export default function CanvasMap() {
       )}
 
       {/* ── MOBILE 2-Row Toolbar (hidden in stats/read-only mode or when done) ── */}
-      {!readOnly && flowStep !== 'done' && (
+      {!readOnly && (
       <div className="mobile-toolbar-row1">
         <button
           className={`btn ${activeTool === 'draw' ? 'active' : ''}`}
@@ -387,7 +391,7 @@ export default function CanvasMap() {
         </span>
       </div>
       )}
-      {!readOnly && flowStep !== 'done' && activeTool === 'event' && (
+      {!readOnly && activeTool === 'event' && (
         <div className="mobile-toolbar-row2">
           {EDITABLE_EVENT_TYPES.map(et => (
             <button
