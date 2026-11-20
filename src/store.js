@@ -93,25 +93,7 @@ const makeParty = (props = {}) => ({
   color: props.color,
 })
 
-// Helper: add a new party (used by both addParty and startNewParty)
-const addPartyImpl = (set, get) => {
-  const parties = get().parties
-  const p = makeParty({ type: 'solo' })
-  p.color = assignPathColor(parties.length)
-  p.name = `동선 ${parties.length + 1}`
-  const flowStep = get().flowStep === 'done' ? 'info' : get().flowStep
-  set({
-    parties: [...parties, p],
-    activePartyId: p.id,
-    flowStep,
-    // A brand-new party must be VISIBLE. If the desktop filter (visiblePartyIds)
-    // was pinned to a specific earlier party, the new one would be hidden and
-    // the user would see "I drew a route but it's not on the map". Resetting
-    // to null (= show all) guarantees the new route shows immediately.
-    visiblePartyIds: null,
-  })
-  return p.id
-}
+
 
 export const headcountOf = (p) => p.members?.length || (p.headcount || 1)
 
@@ -164,6 +146,10 @@ export const useStore = create(persist((set, get) => ({
 
   // ── Parties ──
   addParty: (props) => {
+    // Clear the previous party's selection so the customer tab doesn't show
+    // two highlighted customers at once after "새 고객 추가" (the old
+    // selectedPartyId lingered while activePartyId pointed at the new party).
+    set({ selectedPartyId: null })
     const parties = get().parties
     const p = makeParty(props)
     p.color = assignPathColor(parties.length)
@@ -183,19 +169,8 @@ export const useStore = create(persist((set, get) => ({
     })
     return p.id
   },
-
-  // Mobile flow: start a fresh party for the next customer
-  addParty: () => {
-    // Clear the previous party's selection so the customer tab doesn't show
-    // two highlighted customers at once after "새 고객 추가" (the old
-    // selectedPartyId lingered while activePartyId pointed at the new party).
-    set({ selectedPartyId: null })
-    return addPartyImpl(get, set)
-  },
   startNewParty: () => {
-    // Same as addParty: drop the previous party's selection.
-    set({ selectedPartyId: null })
-    return addPartyImpl(get, set)
+    return get().addParty()
   },
 
   updateParty: (id, patch) => set({
