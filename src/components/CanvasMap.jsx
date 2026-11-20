@@ -358,8 +358,8 @@ export default function CanvasMap() {
       </div>
       )}
 
-      {/* ── MOBILE 2-Row Toolbar (hidden in stats/read-only mode) ── */}
-      {!readOnly && (
+      {/* ── MOBILE 2-Row Toolbar (hidden in stats/read-only mode or when done) ── */}
+      {!readOnly && flowStep !== 'done' && (
       <div className="mobile-toolbar-row1">
         <button
           className={`btn ${activeTool === 'draw' ? 'active' : ''}`}
@@ -387,7 +387,7 @@ export default function CanvasMap() {
         </span>
       </div>
       )}
-      {!readOnly && activeTool === 'event' && (
+      {!readOnly && flowStep !== 'done' && activeTool === 'event' && (
         <div className="mobile-toolbar-row2">
           {EDITABLE_EVENT_TYPES.map(et => (
             <button
