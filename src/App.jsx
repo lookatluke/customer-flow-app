@@ -484,6 +484,13 @@ export default function App() {
   const selectedParty = parties.find(p => p.id === (selectedPartyId || activePartyId))
 
   const startPathForParty = useCallback((partyId) => {
+    const p = useStore.getState().parties.find(x => x.id === partyId)
+    // Completed routes are locked: no re-entry into draw mode, no complete button.
+    if (p && p.completedAt) {
+      setFlowStep('done')
+      setMobileTab('map')
+      return
+    }
     setActiveParty(partyId)
     setSelectedParty(partyId)
     setFlowStep('path')
@@ -499,7 +506,9 @@ export default function App() {
     const p = useStore.getState().parties.find(x => x.id === partyId)
     setActiveParty(partyId)
     setSelectedParty(partyId)
-    setFlowStep(p && p.path.length >= 2 ? 'path' : 'info')
+    // Completed parties: flowStep 'done' → map shows the completed banner and
+    // no complete button; customer tab shows no "동선 그리기 시작" button.
+    setFlowStep(p && p.completedAt ? 'done' : p && p.path.length >= 2 ? 'path' : 'info')
     setMobileTab('map')
   }, [setActiveParty, setSelectedParty, setFlowStep])
 
@@ -665,7 +674,7 @@ export default function App() {
                     {parties.map(p => (
                       <div
                         key={p.id}
-                        className={`mobile-party-item ${selectedPartyId === p.id || activePartyId === p.id ? 'selected' : ''}`}
+                        className={`mobile-party-item ${selectedPartyId === p.id || activePartyId === p.id ? 'selected' : ''} ${p.completedAt ? 'completed' : ''}`}
                         onClick={() => handleSelectParty(p.id)}
                       >
                         <div className="mp-color" style={{ background: p.color }} />
@@ -674,7 +683,10 @@ export default function App() {
                           <div className="mp-meta">{p.members.length}명 · {p.path.length}개 동선</div>
                         </div>
                         <div className="mp-actions">
-                          <button type="button" className="mp-btn" onClick={(e) => { e.stopPropagation(); startPathForParty(p.id) }}>동선</button>
+                          {!p.completedAt && (
+                            <button type="button" className="mp-btn" onClick={(e) => { e.stopPropagation(); startPathForParty(p.id) }}>동선</button>
+                          )}
+                          <span className="mp-completed-badge" title="완료됨">✓</span>
                           <button type="button" className="mp-btn delete" onClick={(e) => { e.stopPropagation(); deleteParty(p.id) }}>✕</button>
                         </div>
                       </div>
@@ -767,14 +779,21 @@ export default function App() {
                     </div>
                   </div>
 
-                  {/* CTA: Start Path */}
-                  <button
-                    className="btn primary"
-                    style={{ width: '100%', justifyContent: 'center', padding: '14px', fontSize: 15 }}
-                    onClick={() => startPathForParty(selectedParty.id)}
-                  >
-                    ✏️ 동선 그리기 시작
-                  </button>
+                  {/* CTA: Start Path (hidden for completed parties — route is locked) */}
+                  {!selectedParty.completedAt && (
+                    <button
+                      className="btn primary"
+                      style={{ width: '100%', justifyContent: 'center', padding: '14px', fontSize: 15 }}
+                      onClick={() => startPathForParty(selectedParty.id)}
+                    >
+                      ✏️ 동선 그리기 시작
+                    </button>
+                  )}
+                  {selectedParty.completedAt && (
+                    <div style={{ textAlign: 'center', padding: '10px', color: 'var(--text-muted)', fontSize: 14 }}>
+                      ✓ 동선 완료 — 추가·수정 불가
+                    </div>
+                  )}
                 </>
               )}
 

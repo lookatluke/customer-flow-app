@@ -1158,6 +1158,20 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 .mobile-party-item .mp-btn.delete { color: var(--red); border-color: rgba(248,113,113,0.3); }
+.mobile-party-item .mp-completed-badge {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 26px;
+  padding: 6px;
+  font: 600 12px var(--sans);
+  border-radius: 6px;
+  color: var(--green, #34d399);
+  background: rgba(52, 211, 153, 0.1);
+  border: 1px solid rgba(52, 211, 153, 0.3);
+}
+.mobile-party-item.completed .mp-completed-badge { display: flex; }
 
 /* ── Mobile Stats ────────────────────────────────────────────────────────── */
 .mobile-stats {
