@@ -1211,8 +1211,12 @@ body {
 }
 
 /* ── Mobile Canvas Toolbar (2-row) ───────────────────────────────────────── */
-.mobile-toolbar-row1,
-.mobile-toolbar-row2 {
+/* Row 1 is absolutely positioned over the canvas top; row 2 (event chips) is
+   placed in normal flow between the canvas and the bottom tabs — using
+   `position:absolute; bottom:0` made it stretch to fill the whole canvas
+   (align-items:center → the chips sat invisible in the middle of the map,
+   covered by the topbar/overlay, so tapping "이벤트" seemed to do nothing). */
+.mobile-toolbar-row1 {
   display: none;
   flex-direction: row;
   align-items: center;
@@ -1230,10 +1234,16 @@ body {
   z-index: 15;
 }
 .mobile-toolbar-row2 {
-  top: auto;
-  bottom: 0;
-  border-bottom: none;
+  display: none;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  background: rgba(16, 19, 25, 0.92);
   border-top: 1px solid var(--border);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  flex-shrink: 0;
 }
 
 /* ── Layout Visibility (Desktop) ─────────────────────────────────────────── */

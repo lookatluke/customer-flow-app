@@ -185,7 +185,18 @@ export const useStore = create(persist((set, get) => ({
   },
 
   // Mobile flow: start a fresh party for the next customer
-  startNewParty: () => addPartyImpl(set, get),
+  addParty: () => {
+    // Clear the previous party's selection so the customer tab doesn't show
+    // two highlighted customers at once after "새 고객 추가" (the old
+    // selectedPartyId lingered while activePartyId pointed at the new party).
+    set({ selectedPartyId: null })
+    return addPartyImpl(get, set)
+  },
+  startNewParty: () => {
+    // Same as addParty: drop the previous party's selection.
+    set({ selectedPartyId: null })
+    return startNewPartyImpl(get, set)
+  },
 
   updateParty: (id, patch) => set({
     parties: get().parties.map(p => {
