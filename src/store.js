@@ -195,7 +195,7 @@ export const useStore = create(persist((set, get) => ({
   startNewParty: () => {
     // Same as addParty: drop the previous party's selection.
     set({ selectedPartyId: null })
-    return startNewPartyImpl(get, set)
+    return addPartyImpl(get, set)
   },
 
   updateParty: (id, patch) => set({
